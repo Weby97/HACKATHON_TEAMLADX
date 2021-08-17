@@ -5,26 +5,35 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-
+    //Reference to game controls
     private GameControls gameControls;
 
+    //Speed of the player
     [SerializeField] private float speed = 5f;
 
+    //Reference to a camera object
     [SerializeField] private GameObject _camera;
-    [SerializeField] [Range(0, 1)] private float sensititvity;
+    
+    //Rotation values
     private float rotX, rotY;
 
+    //How high the player will jump
     [SerializeField] private float jumpForce = 2f;
+    
+    //Distance to the ground from the player
     private float distToGround;
 
+    //Component references
     private Rigidbody _rb;
     private Collider _collider;
 
 
     private void Awake()
     {
+        //Initialize and enable player controls
         gameControls = new GameControls();
         gameControls.Player.Enable();
+        //Subscribe jump function
         gameControls.Player.Jump.started += OnJump;
     }
 
@@ -32,6 +41,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Set references
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
         distToGround = _collider.bounds.extents.y;
@@ -40,22 +50,33 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //The vector that is returned from the move action
         Vector2 moveVector = gameControls.Player.Move.ReadValue<Vector2>();
 
+        //Move the player
         transform.Translate(moveVector.x * speed * Time.fixedDeltaTime, 0, moveVector.y * speed * Time.fixedDeltaTime);
 
+        //Vector returned from the look action
         Vector2 lookVector = gameControls.Player.Look.ReadValue<Vector2>();
+        //Increase rotational values by the amount the mouse moved
         rotX += lookVector.x;
         rotY += lookVector.y;
 
+        //Restrict y axis rotation
         rotY = Mathf.Clamp(rotY, -90f, 90f);
 
+        //rotate the camera
         _camera.transform.rotation = Quaternion.Euler(-rotY, rotX, 0);
 
+        //rotate the player along the x axis only
         transform.rotation = Quaternion.Euler(0, rotX, 0);
 
     }
 
+    /// <summary>
+    /// Determines whether the player is grounded or not
+    /// </summary>
+    /// <returns>A bool that is true if the player is on the ground</returns>
     bool IsGrounded() 
     {
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
@@ -63,8 +84,10 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputAction.CallbackContext ctx)
     {
+        //If not on ground don't jump
         if (!IsGrounded())
             return;
+        //Add jump force
         _rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 }

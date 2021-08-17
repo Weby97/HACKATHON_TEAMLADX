@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Moves camera to given parent object
 public class CameraScript : MonoBehaviour
 {
 
