@@ -40,4 +40,12 @@ public class arrow_trap : MonoBehaviour
         Instantiate(arrow_2, new_position_2, Quaternion.Euler(arrow_rotation_2));
       // }
     }
+
+    void OnCollisionEnter(Collision other)
+    {
+      if (other.gameObject.CompareTag("Player"))
+      {
+        check_for_arrow_trap = true;
+      }
+    }
 }
