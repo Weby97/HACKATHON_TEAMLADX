@@ -37,10 +37,10 @@ public class clashing_walls_trap : MonoBehaviour
     {
       if (move)
       {
-        Vector3 clash_1 = new Vector3(-0.2f,0,0);
+        Vector3 clash_1 = new Vector3(-0.1f,0,0);
         wall_1.transform.Translate(clash_1 * speed * Time.deltaTime);
 
-        Vector3 clash_2 = new Vector3(0.2f,0,0);
+        Vector3 clash_2 = new Vector3(0.1f,0,0);
         wall_2.transform.Translate(clash_2 * speed * Time.deltaTime);
       }
       // else{
