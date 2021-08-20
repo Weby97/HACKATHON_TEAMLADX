@@ -25,18 +25,19 @@ public class arrow_trap : MonoBehaviour
 
     void fire_arrows()
     {
+      Debug.Log("firing");
       float which_wall = Random.Range(0,1);
       // if (which_wall < 0.5f)
       // {
-        Vector3 new_position = new Vector3(-15.72f, Random.Range(1.5f,3), Random.Range(9,17));
-        Vector3 arrow_rotation = new Vector3(0,0,93);
+        Vector3 new_position = new Vector3(-16f, Random.Range(1.5f,3), Random.Range(9,17));
+        Vector3 arrow_rotation = new Vector3(0,270,3);
         Instantiate(arrow, new_position, Quaternion.Euler(arrow_rotation));
       // }
       // else
       // {
 
-        Vector3 new_position_2 = new Vector3(-23f, Random.Range(1.5f,3), Random.Range(9,17));
-        Vector3 arrow_rotation_2 = new Vector3(0,0,87);
+        Vector3 new_position_2 = new Vector3(-22f, Random.Range(1.5f,3), Random.Range(9,17));
+        Vector3 arrow_rotation_2 = new Vector3(-3,90,0);
         Instantiate(arrow_2, new_position_2, Quaternion.Euler(arrow_rotation_2));
       // }
     }

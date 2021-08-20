@@ -13,13 +13,13 @@ public class PlayerController : MonoBehaviour
 
     //Reference to a camera object
     [SerializeField] private GameObject _camera;
-    
+
     //Rotation values
     private float rotX, rotY;
 
     //How high the player will jump
-    [SerializeField] private float jumpForce = 2f;
-    
+    [SerializeField] private float jumpForce = 5f;
+
     //Distance to the ground from the player
     private float distToGround;
 
@@ -71,13 +71,21 @@ public class PlayerController : MonoBehaviour
         //rotate the player along the x axis only
         transform.rotation = Quaternion.Euler(0, rotX, 0);
 
+        // Slow trap
+        if (transform.position.x > -17.8 && transform.position.x < -7.2 && transform.position.z > -18.2 && transform.position.z < -7.5)
+        {
+          Debug.Log("Speed reduced! ");
+          speed = 2.5f;
+          Debug.Log("Speed");
+        }
+
     }
 
     /// <summary>
     /// Determines whether the player is grounded or not
     /// </summary>
     /// <returns>A bool that is true if the player is on the ground</returns>
-    bool IsGrounded() 
+    bool IsGrounded()
     {
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
@@ -90,4 +98,14 @@ public class PlayerController : MonoBehaviour
         //Add jump force
         _rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
+
+    // void OnCollisionEnter(Collision other)
+    // {
+    //   if (other.gameObject.CompareTag("slow_trap"))
+    //   {
+    //     Debug.Log("Speed reduced! ");
+    //     speed = 2.5f;
+    //     Debug.Log("Speed");
+    //   }
+    // }
 }

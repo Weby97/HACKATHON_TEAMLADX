@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class arrow_2_properties : MonoBehaviour
 {
-    Vector3 velocity = new Vector3(0,-2f,0);
+    Vector3 velocity = new Vector3(0,0,2f);
     float speed = 100f;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,10 @@ public class arrow_2_properties : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-      Destroy(gameObject);
+      if (other.gameObject.CompareTag("wall"))
+      {
+        // Debug.Log("Collision detected! ");
+        Destroy(gameObject);
+      }
     }
 }
