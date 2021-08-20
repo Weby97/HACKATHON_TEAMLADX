@@ -1,0 +1,20 @@
+# Blender MTL File: 'Table_Stone.blend'
+# Material Count: 2
+
+newmtl Material
+Ns 52.010398
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.021182 0.027154
+Ks 0.421182 0.421182 0.421182
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl None
+Ns 500
+Ka 0.8 0.8 0.8
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
