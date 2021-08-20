@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - clashing_wall
+  - Enemy
+  - Gun
+  - Ammo
   layers:
   - Default
   - TransparentFX
@@ -12,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Overlay
   - 
   - 
   - 

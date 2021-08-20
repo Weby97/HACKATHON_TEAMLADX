@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
     //Reference to game controls
     private GameControls gameControls;
 
-    //Speed of the player
-    [SerializeField] private float speed = 5f;
+    //Reference to player settings
+    public static PlayerData playerSettings;
+
+    private float speed;
 
     //Reference to a camera object
     [SerializeField] private GameObject _camera;
@@ -23,9 +25,12 @@ public class PlayerController : MonoBehaviour
     //Distance to the ground from the player
     private float distToGround;
 
+    private GameObject currentWeapon;
+
     //Component references
     private Rigidbody _rb;
     private Collider _collider;
+    private PlayerScript _playerScript;
 
 
     private void Awake()
@@ -33,8 +38,15 @@ public class PlayerController : MonoBehaviour
         //Initialize and enable player controls
         gameControls = new GameControls();
         gameControls.Player.Enable();
-        //Subscribe jump function
+        _playerScript = GetComponent<PlayerScript>();
+        //Subscribe functions
         gameControls.Player.Jump.started += OnJump;
+        gameControls.Player.Fire.started += OnFire;
+        gameControls.Player.Fire.canceled += OnFire;
+        gameControls.Player.SwitchWeapons.performed += (ctx) => _playerScript.SendMessage("SwitchWeapon");
+        gameControls.Player.Reload.performed += (ctx) => _playerScript.currentWeapon.SendMessage("Reload");
+        playerSettings = Resources.Load<PlayerData>("DefaultPlayerSettings");
+        speed = playerSettings.speed;
     }
 
 
@@ -50,6 +62,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        speed = _playerScript.speed;
+        currentWeapon = _playerScript.currentWeapon;
+
         //The vector that is returned from the move action
         Vector2 moveVector = gameControls.Player.Move.ReadValue<Vector2>();
 
@@ -90,4 +105,13 @@ public class PlayerController : MonoBehaviour
         //Add jump force
         _rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
+
+    void OnFire(InputAction.CallbackContext ctx)
+    {
+        currentWeapon.SendMessage("OnFire");
+        if (ctx.canceled)
+            currentWeapon.SendMessage("StopFire");
+       
+    }
+
 }
